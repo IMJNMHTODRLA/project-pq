@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace ProjectPQ.Scripts;
@@ -11,7 +12,7 @@ public abstract partial class Singleton<T> : Node
     public override void _EnterTree()
     {
         if (this is not T)
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<InvalidOperationException>(
                 $"Singleton에서 T가 {GetType().Name}가 아닌 {typeof(T).Name}임."
             );
 

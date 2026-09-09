@@ -4,10 +4,10 @@ namespace ProjectPQ.Scripts;
 
 public static class InputMap
 {
-    public static StringName W { get; } = new("w");
-    public static StringName A { get; } = new("a");
-    public static StringName S { get; } = new("s");
-    public static StringName D { get; } = new("d");
+    public readonly static StringName W = new("w");
+    public readonly static StringName A = new("a");
+    public readonly static StringName S = new("s");
+    public readonly static StringName D = new("d");
 
-    public static StringName MouseLeft { get; } = new("mouse_left");
+    public readonly static StringName MouseLeft = new("mouse_left");
 }

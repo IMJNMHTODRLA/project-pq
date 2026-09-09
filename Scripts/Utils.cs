@@ -10,6 +10,10 @@ namespace ProjectPQ.Scripts;
 
 public static class LogUtils
 {
+    [Obsolete(
+        "ThrowError() 이거 쓰지 말고 ThrowError<T>() 쓰샘ㅇㅇ",
+        DiagnosticId = "PROJECT_PQ_THROWERROR"
+    )]
     [Conditional("DEBUG")]
     public static void ThrowError(
         string message,
@@ -19,6 +23,19 @@ public static class LogUtils
     {
         GD.PrintErr($"[에러 발생!({filePath}:{lineNumber})]\n{message}");
         throw new Exception();
+    }
+
+    public static Exception ThrowError<T>(
+        string message,
+        [CallerFilePath] string filePath = "",
+        [CallerLineNumber] int lineNumber = -1
+    ) where T : Exception
+    {
+#if DEBUG
+        GD.PrintErr($"[에러 발생!({filePath}:{lineNumber})]\n{message}");
+#endif
+        throw (T?) Activator.CreateInstance(typeof(T), message)
+            ?? Activator.CreateInstance<T>();
     }
 }
 

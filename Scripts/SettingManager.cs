@@ -13,9 +13,9 @@ public sealed partial class SettingManager : Singleton<SettingManager>
 
     public string SetLangId = null!;
 
-    protected override void OnAutoload()
+    protected override async void OnAutoload()
     {
-        _ = SafeUtils.RunAsync(
+        await SafeUtils.RunAsync(
             Initialize,
             (e) =>
             {
@@ -25,9 +25,9 @@ public sealed partial class SettingManager : Singleton<SettingManager>
         );
     }
 
-    protected override void OnExit()
+    protected override async void OnExit()
     {
-        _ = SafeUtils.RunAsync(
+        await SafeUtils.RunAsync(
             async () =>
                 await AppDataUtils.WriteTextAsync("options/lang", SetLangId),
             (e) => GD.PrintErr(e)
