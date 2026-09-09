@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://0kdf3jxiv36t"]
+
+[ext_resource type="Texture2D" uid="uid://b0c4tcunix558" path="res://Scenes/Games/Entities/Players/PlayerAnimation.png" id="1_rpqav"]
+[ext_resource type="Script" uid="uid://u3u66y08iru5" path="res://Scripts/Games/Entities/Players/Player.cs" id="2_kg0xi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kyqiw"]
+atlas = ExtResource("1_rpqav")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrivr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kyqiw")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrivr"]
+size = Vector2(16, 16)
+
+[node name="Player" type="CharacterBody2D" unique_id=2048624612 node_paths=PackedStringArray("Remote")]
+texture_filter = 1
+script = ExtResource("2_kg0xi")
+Remote = NodePath("RemoteTransform2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1063179290]
+sprite_frames = SubResource("SpriteFrames_xrivr")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1714382556]
+texture_filter = 1
+shape = SubResource("RectangleShape2D_xrivr")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=1950023174]

@@ -1,0 +1,43 @@
+[gd_scene format=4 uid="uid://dj1p3r4lmh0sc"]
+
+[ext_resource type="Script" uid="uid://583nfod3mmmg" path="res://Scripts/Games/Maps/Museums/Museum.cs" id="1_jpj3m"]
+[ext_resource type="Texture2D" uid="uid://ceeckpdlfpi2x" path="res://Scenes/Games/Maps/Museums/Terrain.png" id="1_l7lmw"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eierx"]
+texture = ExtResource("1_l7lmw")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_xrivr"]
+sources/0 = SubResource("TileSetAtlasSource_eierx")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrivr"]
+size = Vector2(36, 50)
+
+[node name="Museum" type="Node2D" unique_id=590521106 node_paths=PackedStringArray("ChangeMapArea", "PlayerSpawnPos", "WorldNode", "Camera")]
+script = ExtResource("1_jpj3m")
+ChangeMapArea = NodePath("ChangeMapArea")
+PlayerSpawnPos = NodePath("PlayerSpawnPos")
+WorldNode = NodePath("WorldNode")
+Camera = NodePath("Camera2D")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1825853431]
+tile_map_data = PackedByteArray("AAD8//z/AAAAAAAAAAD8//3/AAAAAAAAAAD8//7/AAAAAAAAAAD8////AAAAAAAAAAD8/wAAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wIAAAAAAAAAAAD8/wMAAAAAAAAAAAD9//z/AAAAAAAAAAD9//3/AAAAAAAAAAD9//7/AAAAAAAAAAD9////AAAAAAAAAAD9/wAAAAAAAAAAAAD9/wEAAAAAAAAAAAD9/wIAAAAAAAAAAAD9/wMAAAAAAAAAAAD+//z/AAAAAAAAAAD+//3/AAAAAAAAAAD+//7/AAAAAAAAAAD+////AAAAAAAAAAD+/wAAAAAAAAAAAAD+/wEAAAAAAAAAAAD+/wIAAAAAAAAAAAD+/wMAAAAAAAAAAAD///z/AAAAAAAAAAD///3/AAAAAAAAAAD///7/AAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAAAAPz/AAAAAAAAAAAAAP3/AAAAAAAAAAAAAP7/AAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAABAPz/AAAAAAAAAAABAP3/AAAAAAAAAAABAP7/AAAAAAAAAAABAP//AAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAACAPz/AAAAAAAAAAACAP3/AAAAAAAAAAACAP7/AAAAAAAAAAACAP//AAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAADAPz/AAAAAAAAAAADAP3/AAAAAAAAAAADAP7/AAAAAAAAAAADAP//AAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_xrivr")
+
+[node name="PlayerSpawnPos" type="Marker2D" parent="." unique_id=1120208762]
+position = Vector2(-56, 24)
+gizmo_extents = 8.0
+
+[node name="WorldNode" type="Node2D" parent="." unique_id=850754226]
+y_sort_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=845099589]
+position = Vector2(-56, 24)
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+
+[node name="ChangeMapArea" type="Area2D" parent="." unique_id=74426075]
+position = Vector2(140, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChangeMapArea" unique_id=762372343]
+shape = SubResource("RectangleShape2D_xrivr")

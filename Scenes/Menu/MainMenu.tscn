@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dpux1ibinecxv"]
+
+[ext_resource type="Script" uid="uid://cq5k5j3bouq0e" path="res://Scripts/Menu/MainMenu.cs" id="1_a2ivp"]
+
+[node name="MainMenu" type="Control" unique_id=801767532 node_paths=PackedStringArray("NewGameBtn")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a2ivp")
+NewGameBtn = NodePath("NewGameBtn")
+
+[node name="NewGameBtn" type="Button" parent="." unique_id=951798864]
+layout_mode = 0
+offset_left = 468.0
+offset_top = 80.0
+offset_right = 678.0
+offset_bottom = 150.0
+text = "새 게임"

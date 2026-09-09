@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dis0771pfm7re"]
+
+[ext_resource type="Script" uid="uid://bc0jtrj0jmpxb" path="res://Scripts/Games/Maps/Forests/Forest.cs" id="1_626fd"]
+[ext_resource type="PackedScene" uid="uid://bu7r11t5e1aut" path="res://Scenes/Games/Props/DigPoints/DigPoint.tscn" id="2_tllu6"]
+
+[node name="Forest" type="Node2D" unique_id=1252841090 node_paths=PackedStringArray("PlayerSpawnPos", "WorldNode", "Camera")]
+script = ExtResource("1_626fd")
+PlayerSpawnPos = NodePath("PlayerSpawnPos")
+WorldNode = NodePath("WorldNode")
+Camera = NodePath("Camera2D")
+
+[node name="PlayerSpawnPos" type="Marker2D" parent="." unique_id=1178977026]
+position = Vector2(-56, 24)
+gizmo_extents = 8.0
+
+[node name="WorldNode" type="Node2D" parent="." unique_id=933101767]
+y_sort_enabled = true
+
+[node name="DigPoint" parent="WorldNode" unique_id=473468938 instance=ExtResource("2_tllu6")]
+position = Vector2(120, 16)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=303694354]
+position = Vector2(-56, 24)
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
