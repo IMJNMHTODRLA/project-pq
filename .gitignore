@@ -3,7 +3,6 @@
 /android/
 
 build/
-*.uid
 *.tar
 *.tgz
 *.csproj.old
