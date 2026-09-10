@@ -1,5 +1,6 @@
 #warning 추후에 language 폴더 안에다가 items/test.csv 이렇게 만들어지면 뭐 미래의 내가 알아서 생각하겠지ㅇㅇ
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,7 +24,7 @@ public static class LocalizationGenerator
         string absoluteCsvPath = ProjectSettings.GlobalizePath(CsvPath);
 
         if (!File.Exists(absoluteCsvPath))
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<FileNotFoundException>(
                 $"CSV 찾지 못함: {CsvPath}"
             );
 
@@ -34,7 +35,7 @@ public static class LocalizationGenerator
             );
 
         if (lines.Length == 0)
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<InvalidDataException>(
                 "CSV가 비었음"
             );
 
@@ -107,17 +108,17 @@ public static class LocalizationGenerator
     private static void ValidateHeaders(string[] headers)
     {
         if (headers.Length < 2)
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<InvalidDataException>(
                 "Localization CSV requires KEY and Language columns."
             );
 
         if (headers.Any(string.IsNullOrWhiteSpace))
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<InvalidDataException>(
                 "CSV header cannot be empty."
             );
 
         if (headers[0] != "KEY")
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<InvalidDataException>(
                 $"First column must be KEY. Found: {headers[0]}"
             );
 
@@ -134,7 +135,7 @@ public static class LocalizationGenerator
     )
     {
         if (value != value.ToUpper())
-            LogUtils.ThrowError(
+            LogUtils.ThrowError<ArgumentException>(
                 $"{type} must be uppercase: {value}"
             );
     }
@@ -142,7 +143,7 @@ public static class LocalizationGenerator
     private static void ValidateIdentifier(string value)
     {
         if (!SyntaxFacts.IsValidIdentifier(value))
-            LogUtils.ThrowError($"Invalid identifier: {value}");
+            LogUtils.ThrowError<InvalidDataException>($"Invalid identifier: {value}");
     }
 
     private static void WriteFile(

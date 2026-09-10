@@ -65,11 +65,8 @@ public sealed partial class GameManager : Singleton<GameManager>
         if (!IsInstance) return GameStartResult.NotInstance;
         if (!SettingManager.Self.IsLoad) return GameStartResult.SettingNotLoad;
 
-        GameManagerSaveData? saveData =
-            JsonUtils.Deserialize<GameManagerSaveData>(
-                await AppDataUtils.ReadTextAsync(
-                    $"save_data/{id}/{id}.json"
-            ));
+        string? rawSaveData = await AppDataUtils.ReadTextAsync($"save_data/{id}/{id}.json");
+        GameManagerSaveData? saveData = JsonUtils.Deserialize<GameManagerSaveData>(rawSaveData);
 
         if (saveData.IsNull) return GameStartResult.SaveNotFound;
         if (saveData.IsInvalid) return GameStartResult.InvalidSaveData;
