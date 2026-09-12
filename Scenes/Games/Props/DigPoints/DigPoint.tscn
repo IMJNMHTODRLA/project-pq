@@ -5,11 +5,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_13qdw"]
 radius = 13.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xrivr"]
-radius = 10.049875
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ds4em"]
-load_path = "res://.godot/imported/Test.png-daf0ece962e30afcab3188f4c06f194b.ctex"
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1eobx"]
+load_path = "res://.godot/imported/DigPoint.png-3eab5749768ac8eb7f4657b35f395ae6.ctex"
 
 [node name="DigPoint" type="StaticBody2D" unique_id=473468938 node_paths=PackedStringArray("CanDigArea")]
 script = ExtResource("1_1eobx")
@@ -20,8 +17,7 @@ CanDigArea = NodePath("MouseInput")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseInput" unique_id=1175066252]
 shape = SubResource("CircleShape2D_13qdw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=355384288]
-shape = SubResource("CircleShape2D_xrivr")
-
-[node name="Test" type="Sprite2D" parent="." unique_id=828307340]
-texture = SubResource("CompressedTexture2D_ds4em")
+[node name="DigPoint" type="Sprite2D" parent="." unique_id=2100072478]
+modulate = Color(1, 1, 1, 0.49803922)
+scale = Vector2(1.59375, 1.5020462)
+texture = SubResource("CompressedTexture2D_1eobx")

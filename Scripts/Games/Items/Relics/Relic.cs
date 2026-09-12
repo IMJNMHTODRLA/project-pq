@@ -1,4 +1,4 @@
-namespace ProjectPQ.Scripts.Games.Items.Relics;
+namespace ProjectPQ.Scripts.Games.Relics.Relics;
 
 public abstract partial class Relic(
     RelicRarity rarity,

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using ProjectPQ.Scripts.Games.Items.Relics;
+using ProjectPQ.Scripts.Games.Relics.Relics;
 
 namespace ProjectPQ.Scripts.Games.Maps.Museums;
 

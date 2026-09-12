@@ -146,4 +146,12 @@ public static class RandomUtils
         
         return BitConverter.ToUInt64(bytes);
     }
+
+    public static bool Chance(this float rate) => Random.Shared.NextSingle() < rate;
+
+    public static T NextElement<T>(this IReadOnlyList<T> values)
+    {
+        int random = Random.Shared.Next(values.Count);
+        return values[random];
+    }
 }

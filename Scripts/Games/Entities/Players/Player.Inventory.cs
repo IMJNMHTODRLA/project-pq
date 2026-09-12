@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using ProjectPQ.Scripts.Games.Items;
+using ProjectPQ.Scripts.Games.Relics;
 
 namespace ProjectPQ.Scripts.Games.Entities.Players;
 

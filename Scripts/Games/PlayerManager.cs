@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using ProjectPQ.Scripts.Games.Entities.Players;
-using ProjectPQ.Scripts.Games.Items;
+using ProjectPQ.Scripts.Games.Relics;
 
 namespace ProjectPQ.Scripts.Games;
 

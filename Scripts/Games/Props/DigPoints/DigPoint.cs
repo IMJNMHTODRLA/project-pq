@@ -1,9 +1,11 @@
 using Godot;
+using ProjectPQ.Scripts.Games.Maps;
 
 namespace ProjectPQ.Scripts.Games.Props.DigPoints;
 
 public partial class DigPoint : StaticBody2D
 {
+    public required ExcavationMap RandMap { get; init; }
     [Export] private Area2D CanDigArea = null!;
 
     public override void _Ready()
@@ -16,6 +18,6 @@ public partial class DigPoint : StaticBody2D
         if (!inputEvent.IsActionPressed(InputMap.MouseLeft))
             return;
 
-        GD.Print("DigArea action");
+        RandMap.GetRandRelic();
     }
 }

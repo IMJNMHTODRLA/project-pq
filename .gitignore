@@ -6,3 +6,4 @@ build/
 *.tar
 *.tgz
 *.csproj.old
+randjsonidmaker.py

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace ProjectPQ.Scripts.Games.Items.Relics;
+namespace ProjectPQ.Scripts.Games.Relics.Relics;
 
 public abstract partial class Relic
 {
@@ -17,7 +17,7 @@ public abstract partial class Relic
         get
         {
             string resPath = PreservationFolder
-                .PathJoin(Preservation.Id);
+                .PathJoin($"{Preservation.Type.Name}.png");
 
             if (_cachePreservIcon.TryGetValue(resPath, out Texture2D? cache))
                 return cache;

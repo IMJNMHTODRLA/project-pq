@@ -1,4 +1,4 @@
-namespace ProjectPQ.Scripts.Games.Items.Relics;
+namespace ProjectPQ.Scripts.Games.Relics.Relics;
 
 public abstract partial class Relic
 {
@@ -9,8 +9,8 @@ public abstract partial class Relic
         
         return
             base.Equals(relic) &&
-            Rarity == relic.Rarity &&
-            Preservation == relic.Preservation &&
-            Appraisal == relic.Appraisal;
+            Rarity.Type == relic.Rarity.Type &&
+            Preservation.Type == relic.Preservation.Type &&
+            Appraisal.Type == relic.Appraisal.Type;
     }
 }
