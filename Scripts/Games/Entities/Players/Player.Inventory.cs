@@ -12,7 +12,13 @@ public partial class Player
     public ReadOnlySpan<Item> Inventory
     {
         get => _inventory;
-        set => _inventory = value.ToArray();
+        set
+        {
+            _inventory = value.ToArray();
+
+            for (int i = 0; i < _inventory.Length; i++)
+                _inventory[i] ??= Item.Empty;
+        }
     }
 
     public bool AddItem(Item item, int times = 1)
@@ -59,5 +65,5 @@ public partial class Player
         _inventory.SetOrSkip(index, item.Clone());
 
     public bool IsEmpty(int index) =>
-        _inventory.GetOrNull(index)?.IsEmpty() ?? false;
+        _inventory.GetOrNull(index)?.IsEmpty() ?? true;
 }

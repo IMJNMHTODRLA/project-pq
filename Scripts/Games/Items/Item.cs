@@ -16,7 +16,7 @@ public abstract partial class Item : Resource
         other != null &&
         this.Type == other.Type;
 
-    public bool IsEmpty() => Equals(Empty);
+    public bool IsEmpty() => Equals(Empty) || Equals(null);
     public bool IsNotEmpty() => !IsEmpty();
 
     public Item Clone() =>

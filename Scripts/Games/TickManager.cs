@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.InteropServices;
 using Godot;
 using Newtonsoft.Json;
 
