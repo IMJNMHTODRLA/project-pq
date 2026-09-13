@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Godot;
 using Microsoft.CodeAnalysis.CSharp;
 using ProjectPQ.Scripts;
@@ -20,29 +23,20 @@ public static class LocalizationGenerator
 
     public static void Generate()
     {
-        string absoluteCsvPath =
-            ProjectSettings.GlobalizePath(CsvPath);
+        string absoluteCsvPath = ProjectSettings.GlobalizePath(CsvPath);
 
         if (!File.Exists(absoluteCsvPath))
             LogUtils.Throw<FileNotFoundException>(
                 $"CSV 찾지 못함: {CsvPath}"
             );
 
-        string[] lines =
-            File.ReadAllLines(
-                absoluteCsvPath,
-                Encoding.UTF8
-            );
+        List<string[]> rows =
+            ReadCsv(absoluteCsvPath);
 
-        if (lines.Length == 0)
+        if (rows.Count == 0)
             LogUtils.Throw<InvalidDataException>(
                 "CSV가 비었음"
             );
-
-        List<string[]> rows =
-        [
-            ..lines.Select(x => x.Split(','))
-        ];
 
         GenerateLangId(rows);
         GenerateLangKey();
@@ -57,13 +51,9 @@ public static class LocalizationGenerator
 
         sb.AppendLine("// <auto-generator/>");
         sb.AppendLine();
-        sb.AppendLine(
-            "namespace ProjectPQ.addons.localizers.Maps;"
-        );
+        sb.AppendLine("namespace ProjectPQ.addons.localizers.Maps;");
         sb.AppendLine();
-        sb.AppendLine(
-            $"public static class {className}"
-        );
+        sb.AppendLine($"public static class {className}");
         sb.AppendLine("{");
 
         foreach (string str in strings)
@@ -71,7 +61,7 @@ public static class LocalizationGenerator
             ValidateIdentifier(str);
 
             sb.AppendLine(
-                $"    public static readonly string {str} = \"{str}\";"
+                $"    public const string {str} = \"{str}\";"
             );
         }
 
@@ -88,16 +78,14 @@ public static class LocalizationGenerator
 
         ValidateHeaders(headers);
 
-        List<string> languages =
-        [
-            ..headers.Skip(1)
-        ];
+        List<string> languages = [..headers.Skip(1)];
 
         foreach (string lang in languages)
             ValidateUppercase(
                 lang,
                 "Language ID"
             );
+        
 
         WriteFile(
             LangIdPath,
@@ -111,18 +99,25 @@ public static class LocalizationGenerator
     private static void GenerateLangKey()
     {
         string absoluteLanguagePath =
-            ProjectSettings.GlobalizePath(LanguagePath);
+            ProjectSettings.GlobalizePath(
+                LanguagePath
+            );
 
         if (!Directory.Exists(absoluteLanguagePath))
             LogUtils.Throw<DirectoryNotFoundException>(
                 $"Language 폴더 찾지 못함: {LanguagePath}"
             );
 
-        string[] csvFiles =
-            Directory.GetFiles(
-                absoluteLanguagePath,
-                "*.csv",
-                SearchOption.AllDirectories
+        string[] csvFiles = [..Directory.GetFiles(
+            absoluteLanguagePath,
+            "*.csv",
+            SearchOption.AllDirectories
+        )
+        .OrderBy(x => x)];
+
+        if (csvFiles.Length == 0)
+            LogUtils.Throw<InvalidDataException>(
+                $"Language CSV가 없음: {LanguagePath}"
             );
 
         List<string> languages = [];
@@ -137,108 +132,57 @@ public static class LocalizationGenerator
                     csvFile
                 );
 
-            string prefix =
-                Path.GetFileNameWithoutExtension(
-                    relativePath
-                );
+            List<string[]> rows = ReadCsv(csvFile);
 
-            string directory =
-                Path.GetDirectoryName(relativePath)
-                ?? string.Empty;
-
-            if (!string.IsNullOrEmpty(directory))
-            {
-                prefix =
-                    $"{directory}_{prefix}";
-            }
-
-            prefix = prefix
-                .Replace(
-                    Path.DirectorySeparatorChar,
-                    '_'
-                )
-                .Replace(
-                    Path.AltDirectorySeparatorChar,
-                    '_'
-                )
-                .ToUpperInvariant();
-
-            string[] lines =
-                File.ReadAllLines(
-                    csvFile,
-                    Encoding.UTF8
-                );
-
-            if (lines.Length == 0)
+            if (rows.Count == 0)
                 LogUtils.Throw<InvalidDataException>(
                     $"CSV가 비었음: {relativePath}"
                 );
 
-            // Header
-            string[] headers =
-                lines[0].Split(',');
+            string[] headers = rows[0];
 
-            if (headers.Length < 2)
-                LogUtils.Throw<InvalidDataException>(
-                    $"CSV에 Language column이 없음: {relativePath}"
+            ValidateHeaders(headers);
+
+            List<string> currentLanguages = [..headers.Skip(1)];
+
+            foreach (string language in currentLanguages)
+                ValidateUppercase(
+                    language,
+                    $"Language ID ({relativePath})"
                 );
 
+            // 모든 CSV는 동일한 언어 컬럼을 가져야 함
             if (languages.Count == 0)
-            {
                 languages.AddRange(
-                    headers.Skip(1)
+                    currentLanguages
+                );
+            else if (!languages.SequenceEqual(currentLanguages))
+                LogUtils.Throw<InvalidDataException>(
+                    $"CSV의 Language columns가 서로 다름: {relativePath}"
                 );
 
-                foreach (string language in languages)
-                {
-                    ValidateUppercase(
-                        language,
-                        "Language ID"
-                    );
-                }
-            }
-            else
+            string prefix = CreatePrefix(relativePath);
+
+            foreach (string[] row in rows.Skip(1))
             {
-                string[] currentLanguages =
-                    headers.Skip(1).ToArray();
+                if (row.Length == 0) continue;
 
-                if (!languages.SequenceEqual(currentLanguages))
-                {
-                    LogUtils.Throw<InvalidDataException>(
-                        $"CSV의 Language columns가 서로 다름: {relativePath}"
-                    );
-                }
-            }
-
-            // Rows
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string[] columns =
-                    lines[i].Split(',');
-
-                if (columns.Length == 0)
-                    continue;
-
-                string key =
-                    columns[0].Trim();
+                string key = row[0].Trim();
 
                 if (string.IsNullOrWhiteSpace(key))
                     continue;
+
+                if (row.Length != headers.Length)
+                    LogUtils.Throw<InvalidDataException>(
+                        $"Column 개수가 맞지 않음: {relativePath} / {key}"
+                    );
 
                 ValidateUppercase(
                     key,
                     $"Localization Key ({relativePath})"
                 );
 
-                if (columns.Length != headers.Length)
-                {
-                    LogUtils.Throw<InvalidDataException>(
-                        $"Column 개수가 맞지 않음: {relativePath} / {key}"
-                    );
-                }
-
-                string fullKey =
-                    $"{prefix}_{key}";
+                string fullKey = $"{prefix}_{key}";
 
                 ValidateIdentifier(fullKey);
 
@@ -251,9 +195,7 @@ public static class LocalizationGenerator
 
                 keys.Add(fullKey);
 
-                // KEY를 fullKey로 교체
-                string[] translation =
-                    columns.ToArray();
+                string[] translation = [..row];
 
                 translation[0] = fullKey;
 
@@ -262,24 +204,34 @@ public static class LocalizationGenerator
         }
 
         // -----------------------------
-        // Maps/language.csv 생성
+        // Maps/language.csv
         // -----------------------------
 
         StringBuilder csv = new();
 
-        csv.Append("KEY");
+        csv.Append(
+            EscapeCsvField("KEY")
+        );
 
         foreach (string language in languages)
-            csv.Append($",{language}");
+        {
+            csv.Append(',');
+            csv.Append(
+                EscapeCsvField(language)
+            );
+        }
 
         csv.AppendLine();
 
         foreach (string[] translation in translations)
-        {
             csv.AppendLine(
-                string.Join(",", translation)
+                string.Join(
+                    ",",
+                    translation.Select(
+                        EscapeCsvField
+                    )
+                )
             );
-        }
 
         WriteFile(
             GeneratedLanguagePath,
@@ -287,7 +239,7 @@ public static class LocalizationGenerator
         );
 
         // -----------------------------
-        // LangKey.cs 생성
+        // LangKey.cs
         // -----------------------------
 
         WriteFile(
@@ -299,6 +251,103 @@ public static class LocalizationGenerator
         );
     }
 
+    private static string CreatePrefix(
+        string relativePath
+    )
+    {
+        string prefix =
+            Path.GetFileNameWithoutExtension(
+                relativePath
+            );
+
+        string directory =
+            Path.GetDirectoryName(
+                relativePath
+            ) ?? string.Empty;
+
+        if (!string.IsNullOrEmpty(directory))
+            prefix = $"{directory}_{prefix}";
+        
+
+        prefix = prefix
+            .Replace(
+                Path.DirectorySeparatorChar,
+                '_'
+            )
+            .Replace(
+                Path.AltDirectorySeparatorChar,
+                '_'
+            )
+            .ToUpperInvariant();
+
+        ValidateIdentifier(prefix);
+
+        return prefix;
+    }
+
+    private static List<string[]> ReadCsv(
+        string path
+    )
+    {
+        using StreamReader reader = new(
+            path,
+            new UTF8Encoding(
+                encoderShouldEmitUTF8Identifier: false
+            )
+        );
+
+        using CsvReader csv = new(
+            reader,
+            new CsvConfiguration(
+                CultureInfo.InvariantCulture
+            )
+            {
+                HasHeaderRecord = false,
+
+                // CSV의 필드 개수가 이상할 경우
+                // 우리가 직접 검증한다.
+                DetectColumnCountChanges = false,
+
+                // 공백은 직접 Trim한다.
+                TrimOptions = TrimOptions.None
+            }
+        );
+
+        List<string[]> rows = [];
+
+        while (csv.Read())
+        {
+            string[]? record = csv.Parser.Record;
+
+            if (record is not null)
+                rows.Add(record);
+        }
+
+        return rows;
+    }
+
+    private static string EscapeCsvField(
+        string value
+    )
+    {
+        if (value.Contains('"'))
+            value = value.Replace(
+                "\"",
+                "\"\""
+            );
+
+        if (
+            value.Contains(',') ||
+            value.Contains('"') ||
+            value.Contains('\r') ||
+            value.Contains('\n')
+        )
+        {
+            return $"\"{value}\"";
+        }
+
+        return value;
+    }
 
     private static void ValidateHeaders(
         string[] headers
@@ -313,6 +362,7 @@ public static class LocalizationGenerator
             LogUtils.Throw<InvalidDataException>(
                 "CSV header cannot be empty."
             );
+        
 
         if (headers[0] != "KEY")
             LogUtils.Throw<InvalidDataException>(
@@ -323,7 +373,7 @@ public static class LocalizationGenerator
             ValidateUppercase(
                 header,
                 "CSV Header"
-            );
+            );   
     }
 
     private static void ValidateUppercase(
@@ -331,7 +381,7 @@ public static class LocalizationGenerator
         string type
     )
     {
-        if (value != value.ToUpper())
+        if (value != value.ToUpperInvariant())
             LogUtils.Throw<ArgumentException>(
                 $"{type} must be uppercase: {value}"
             );
@@ -362,7 +412,9 @@ public static class LocalizationGenerator
         File.WriteAllText(
             absolute,
             content,
-            Encoding.UTF8
+            new UTF8Encoding(
+                encoderShouldEmitUTF8Identifier: false
+            )
         );
     }
 }
