@@ -70,7 +70,7 @@ mouse_left={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/localizers/language/language.EN.translation", "res://addons/localizers/language/language.KO.translation", "res://addons/localizers/language/language.csv")
+locale/translations=PackedStringArray("res://addons/localizers/Maps/language.EN.translation", "res://addons/localizers/Maps/language.KO.translation")
 
 [localization_with_google_sheet]
 

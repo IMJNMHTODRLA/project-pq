@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bi5tv3pljub03"
+
+[deps]
+
+files=["res://addons/localizers/Maps/language.EN.translation", "res://addons/localizers/Maps/language.KO.translation"]
+
+source_file="res://addons/localizers/Maps/language.csv"
+dest_files=["res://addons/localizers/Maps/language.EN.translation", "res://addons/localizers/Maps/language.KO.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

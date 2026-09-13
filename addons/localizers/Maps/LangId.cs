@@ -4,6 +4,6 @@ namespace ProjectPQ.addons.localizers.Maps;
 
 public static class LangId
 {
-    public static string EN { get; } = "EN";
-    public static string KO { get; } = "KO";
+    public static readonly string EN = "EN";
+    public static readonly string KO = "KO";
 }

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dbhobkev1kh2s"
+
+[deps]
+
+files=["res://addons/localizers/language/item/type/MyItem.EN.translation", "res://addons/localizers/language/item/type/MyItem.KO.translation"]
+
+source_file="res://addons/localizers/language/item/type/MyItem.csv"
+dest_files=["res://addons/localizers/language/item/type/MyItem.EN.translation", "res://addons/localizers/language/item/type/MyItem.KO.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
