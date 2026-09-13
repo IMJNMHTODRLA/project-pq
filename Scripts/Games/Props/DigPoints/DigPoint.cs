@@ -3,14 +3,25 @@ using ProjectPQ.Scripts.Games.Maps;
 
 namespace ProjectPQ.Scripts.Games.Props.DigPoints;
 
-public partial class DigPoint : StaticBody2D
+public readonly record struct DigPointArgs(
+    ExcavationMap RandMap
+) : ISceneArgs;
+
+public partial class DigPoint : StaticBody2D, IScene<DigPointArgs>
 {
-    public required ExcavationMap RandMap { get; init; }
-    [Export] private Area2D CanDigArea = null!;
+    public static string ScenePath => "res://Scenes/Games/Props/DigPoints/DigPoint.tscn";
+
+    public ExcavationMap _randMap = null!;
+    [Export] private Area2D _canDigArea = null!;
+
+    public void SceneInit(DigPointArgs args)
+    {
+        _randMap = args.RandMap;
+    }
 
     public override void _Ready()
     {
-        CanDigArea.InputEvent += DigAreaInputEvent;
+        _canDigArea.InputEvent += DigAreaInputEvent;
     }
 
     private void DigAreaInputEvent(Node _, InputEvent inputEvent, long __)
@@ -18,6 +29,6 @@ public partial class DigPoint : StaticBody2D
         if (!inputEvent.IsActionPressed(InputMap.MouseLeft))
             return;
 
-        RandMap.GetRandRelic();
+        _randMap.GetRandRelic();
     }
 }

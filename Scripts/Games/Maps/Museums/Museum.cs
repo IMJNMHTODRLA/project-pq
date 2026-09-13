@@ -3,7 +3,7 @@ using ProjectPQ.Scripts.Games.Maps.Forests;
 
 namespace ProjectPQ.Scripts.Games.Maps.Museums;
 
-public partial class Museum : Map, IScene
+public partial class Museum : Map, IScene<EmptyArgs>
 {
     public static string ScenePath => "res://Scenes/Games/Maps/Museums/Museum.tscn";
 
@@ -22,6 +22,6 @@ public partial class Museum : Map, IScene
 
     private void OnChange()
     {
-        SceneLoader.Change<Forest>();
+        SceneLoader.Change<Forest, EmptyArgs>();
     }
 }

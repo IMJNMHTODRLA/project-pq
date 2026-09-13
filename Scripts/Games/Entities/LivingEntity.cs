@@ -7,8 +7,8 @@ public abstract partial class LivingEntity : Entity
 {
     [Signal] public delegate void HpChangedEventHandler(long changeHp);
 
-    [Signal] public delegate void HealEventHandler(long hp);
-    [Signal] public delegate void DamageEventHandler(long hp);
+    [Signal] public delegate void OnHealEventHandler(long hp);
+    [Signal] public delegate void OnDamageEventHandler(long hp);
 
     protected LivingEntity(long maxHealth, long health)
     {
@@ -33,7 +33,7 @@ public abstract partial class LivingEntity : Entity
         value = Math.Clamp(value, 0, MaxHealth);
 
         Health += value;
-        EmitSignal(SignalName.Heal, value);
+        EmitSignal(SignalName.OnHeal, value);
     }
     
     public void Damage(long value)
@@ -41,7 +41,7 @@ public abstract partial class LivingEntity : Entity
         value = Math.Clamp(value, 0, MaxHealth);
 
         Health -= value;
-        EmitSignal(SignalName.Damage, value);
+        EmitSignal(SignalName.OnDamage, value);
     }
 
     public long MaxHealth

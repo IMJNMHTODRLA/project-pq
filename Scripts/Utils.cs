@@ -10,7 +10,7 @@ namespace ProjectPQ.Scripts;
 
 public static class LogUtils
 {
-    public static Exception ThrowError<T>(
+    public static Exception Throw<T>(
         string message,
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int lineNumber = -1
@@ -154,4 +154,10 @@ public static class RandomUtils
         int random = Random.Shared.Next(values.Count);
         return values[random];
     }
+}
+
+public static class LocalizationUtils
+{
+    public static string Translate(this string text) =>
+        TranslationServer.Translate(text);
 }

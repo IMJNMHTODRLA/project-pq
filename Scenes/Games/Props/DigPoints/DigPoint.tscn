@@ -8,9 +8,8 @@ radius = 13.0
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1eobx"]
 load_path = "res://.godot/imported/DigPoint.png-3eab5749768ac8eb7f4657b35f395ae6.ctex"
 
-[node name="DigPoint" type="StaticBody2D" unique_id=473468938 node_paths=PackedStringArray("CanDigArea")]
+[node name="DigPoint" type="StaticBody2D" unique_id=473468938]
 script = ExtResource("1_1eobx")
-CanDigArea = NodePath("MouseInput")
 
 [node name="MouseInput" type="Area2D" parent="." unique_id=171159261]
 

@@ -3,35 +3,40 @@ using Godot;
 
 namespace ProjectPQ.Scripts;
 
-public interface IScene
+public interface ISceneArgs;
+public readonly struct EmptyArgs : ISceneArgs;
+
+public interface IScene<TArgs>
+    where TArgs : struct, ISceneArgs
 {
     public abstract static string ScenePath { get; }
 
-    public void OnSceneLoaded() {}
+    public void SceneInit(TArgs args) {}
 }
 
 public static class SceneLoader
 {
-    public static T Load<T>(bool disableLoadAction = false)
-        where T : Node, IScene
+    public static T Load<T, TArgs>(TArgs args = default)
+        where T : Node, IScene<TArgs>
+        where TArgs : struct, ISceneArgs
     {
         PackedScene scene = GD.Load<PackedScene>(T.ScenePath);
         
         T tScene = scene.Instantiate<T>();
         
-        if (!disableLoadAction)
-            tScene.OnSceneLoaded();
+        tScene.SceneInit(args);
         
         return tScene;
     }
 
-    public static T Change<T>(bool disableLoadAction = false)
-        where T : Node, IScene
+    public static T Change<T, TArgs>(TArgs args = default)
+        where T : Node, IScene<TArgs>
+        where TArgs : struct, ISceneArgs
     {
-        T node = Load<T>(disableLoadAction);
+        T node = Load<T, TArgs>(args);
 
         SceneTree tree = Engine.GetMainLoop() as SceneTree
-            ?? throw new InvalidOperationException("SceneTree not found.");
+            ?? throw LogUtils.Throw<InvalidOperationException>("SceneTree not found.");
 
         tree.ChangeSceneToNode(node);
 

@@ -2,7 +2,7 @@ namespace ProjectPQ.Scripts.Games.Entities.Players;
 
 public partial class Player :
     LivingEntity,
-    IScene
+    IScene<EmptyArgs>
 {
     public Player() : base(maxHealth: 100, health: 100)
     {

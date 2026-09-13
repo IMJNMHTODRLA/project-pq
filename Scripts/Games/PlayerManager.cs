@@ -23,7 +23,7 @@ public sealed partial class PlayerManager : Singleton<PlayerManager>
     {
         Player?.QueueFree();
 
-        Player = SceneLoader.Load<Player>();
+        Player = SceneLoader.Load<Player, EmptyArgs>();
         Player.DetachNode();
     }
 

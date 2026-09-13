@@ -37,7 +37,7 @@ public sealed partial class MapManager : Singleton<MapManager>
                 _maps[map.Type] = map;
         }
 
-        SceneLoader.Change<Museum>();
+        SceneLoader.Change<Museum, EmptyArgs>();
         return true;
     }
 

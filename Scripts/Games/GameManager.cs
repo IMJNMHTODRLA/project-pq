@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Godot;
 using Newtonsoft.Json;
-using ProjectPQ.addons.localizers.Maps;
 
 namespace ProjectPQ.Scripts.Games;
 
@@ -86,7 +84,8 @@ public sealed partial class GameManager : Singleton<GameManager>
     {
         await SettingManager.Self.InitTask;
 
-        GD.Print(Tr(LangKey.HELLO));
+        //GD.Print(Tr(LangKey.HELLO));
+        Tr("");
     }
 
     protected override void OnTick(double delta)
