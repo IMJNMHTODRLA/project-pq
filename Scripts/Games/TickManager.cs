@@ -9,16 +9,16 @@ namespace ProjectPQ.Scripts.Games;
 public sealed class TickManagerSaveData(long? gameTick = null)
 {
     [JsonProperty]
-    public long GameTick { get; } = gameTick ?? 0L;
+    public long GameTick { get; } = gameTick ?? TickManager.DEFAULT_GAME_TICK;
 }
 
 // Default
 public sealed partial class TickManager
 {
-    private const bool DEFAULT_IS_START = false;
-    private const bool DEFAULT_IS_PAUSE = true;
+    public const bool DEFAULT_IS_START = false;
+    public const bool DEFAULT_IS_PAUSE = true;
 
-    private const long DEFAULT_GAME_TICK = 0L;
+    public const long DEFAULT_GAME_TICK = 0L;
 }
 
 public sealed partial class TickManager : Singleton<TickManager>
@@ -29,7 +29,7 @@ public sealed partial class TickManager : Singleton<TickManager>
     public bool IsPause { get; set; } = DEFAULT_IS_PAUSE;
 
     public long GameTick { get; private set; } = DEFAULT_GAME_TICK;
-    public long GameDay => GameTick / DAILY_TICK + 1;
+    public long GameDay => GameTick / DAILY_TICK;
 
     [Signal] public delegate void NextDayEventHandler(long day);
     [Signal] public delegate void MidnightEventHandler();

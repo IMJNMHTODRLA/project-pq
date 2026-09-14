@@ -6,7 +6,7 @@ namespace ProjectPQ.Scripts.Games.Maps.Museums;
 
 [RegisterMapData]
 [method: JsonConstructor]
-public partial class MuseumData(List<Relic> regRelics) : MapData
+public class MuseumData(IReadOnlyList<Relic> regRelics) : MapData
 {
     public MuseumData() : this(regRelics: [])
     {
@@ -14,27 +14,27 @@ public partial class MuseumData(List<Relic> regRelics) : MapData
 
     private const int MAX_REGISTER_RELIC = 5;
 
-    private readonly List<Relic> _registeredRelics = regRelics; 
+    private readonly List<Relic> _registerRelics = [..regRelics]; 
 
     public bool RegisterRelic(Relic relic)
     {
-        if (_registeredRelics.Count >= MAX_REGISTER_RELIC)
+        if (_registerRelics.Count >= MAX_REGISTER_RELIC)
             return false;
 
-        _registeredRelics.Add(relic);
+        _registerRelics.Add(relic);
         return true;
     }
 
     public bool UnRegisterRelic(int index, out Relic? relic)
     {
-        relic = _registeredRelics.GetOrNull(index);
+        relic = _registerRelics.GetOrNull(index);
         if (relic == null)
             return false;
 
-        _registeredRelics.RemoveAt(index);
+        _registerRelics.RemoveAt(index);
         return true;
     }
 
     public IReadOnlyList<Relic> GetAllRegisterRelic() =>
-        _registeredRelics;
+        _registerRelics;
 }

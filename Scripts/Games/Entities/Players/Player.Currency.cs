@@ -12,11 +12,13 @@ public partial class Player
     /// <returns>true or false</returns>
     public bool CanAffordGold(long amount) =>
         amount >= 0 && Gold >= amount;
+
+    public void SpendGold(long amount) => Gold -= amount;
     
     public bool TrySpendGold(long amount)
     {
         bool canAfford = CanAffordGold(amount);
-        if (canAfford) Gold -= amount;
+        if (canAfford) SpendGold(amount);
         return canAfford;
     }
 }
