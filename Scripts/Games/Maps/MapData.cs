@@ -1,5 +1,5 @@
 namespace ProjectPQ.Scripts.Games.Maps;
 
-public abstract partial class MapData
+public abstract class MapData
 {
 }
