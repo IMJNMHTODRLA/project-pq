@@ -6,6 +6,7 @@ namespace ProjectPQ.Scripts.Games.Upgrades;
 public enum UpgradeResult
 {
     Success,
+    NotUnlocked,
     MaxLevel,
     NotEnoughGold
 }
@@ -23,7 +24,11 @@ public abstract class Upgrade
     public virtual int UnlockDate { get; } = 0;
 
     public long Level { get; private set; } = 0;
-    public bool CanAddLevel() => MaxLevel > Level;
+
+    public bool IsUnlocked() => TickManager.Self.GameDay >= UnlockDate;
+    public bool IsMaxLevel() => MaxLevel <= Level;
+    public bool CanAddLevel() => !IsMaxLevel() && IsUnlocked();
+
     public bool AddLevel()
     {
         bool canAddLevel = CanAddLevel();
@@ -35,18 +40,16 @@ public abstract class Upgrade
     {
         Player player = PlayerManager.Self.Player;
 
-        if (!CanAddLevel()) return UpgradeResult.MaxLevel;
+        if (!IsUnlocked()) return UpgradeResult.NotUnlocked;
+        if (IsMaxLevel()) return UpgradeResult.MaxLevel;
         if (!player.CanAffordGold(Cost)) return UpgradeResult.NotEnoughGold;
         
         AddLevel();
-        player.SpendGold(Cost);
+        player.TrySpendGold(Cost);
 
         return UpgradeResult.Success;
     }
 
     // BaseCost * (BaseCostMultiple ^ Level)
     public long Cost => BaseCost * (long) Math.Pow(BaseCostMultiple, Level);
-
-    public bool IsUnlocked() =>
-        TickManager.Self.GameDay >= UnlockDate;
 }

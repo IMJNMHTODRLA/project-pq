@@ -2,11 +2,11 @@
 
 importer="csv_translation"
 type="Translation"
-uid="uid://dkb4v6ayxmf4w"
+uid="uid://chptgjqiu1k8f"
 
 [deps]
 
-source_file="res://addons/localizers/language/language.csv"
+source_file="res://addons/localizers/language/template.csv"
 
 [params]
 

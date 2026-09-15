@@ -256,9 +256,9 @@ public static class LocalizationGenerator
     )
     {
         string prefix =
-            Path.GetFileNameWithoutExtension(
-                relativePath
-            );
+            Path.GetFileNameWithoutExtension(relativePath)
+                .ToSnakeCase()
+                .ToUpperInvariant();
 
         string directory =
             Path.GetDirectoryName(
