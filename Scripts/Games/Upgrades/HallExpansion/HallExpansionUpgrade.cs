@@ -1,5 +1,6 @@
 namespace ProjectPQ.Scripts.Games.Upgrades.HallExpansion;
 
+[JsonTypeId(0xEC459BC3D9C540B9)]
 public class HallExpansionUpgrade : Upgrade
 {
     protected override string BaseName => "전시관 확장";

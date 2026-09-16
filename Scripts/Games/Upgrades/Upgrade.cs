@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using ProjectPQ.Scripts.Games.Entities.Players;
 
 namespace ProjectPQ.Scripts.Games.Upgrades;
@@ -23,6 +24,7 @@ public abstract class Upgrade
     public abstract int MaxLevel { get; }
     public virtual int UnlockDate { get; } = 0;
 
+    [JsonProperty]
     public long Level { get; private set; } = 0;
 
     public bool IsUnlocked() => TickManager.Self.GameDay >= UnlockDate;
