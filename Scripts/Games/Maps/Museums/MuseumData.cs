@@ -12,13 +12,13 @@ public class MuseumData(IReadOnlyList<Relic> regRelics) : MapData
     {
     }
 
-    private const int MAX_REGISTER_RELIC = 5;
+    private readonly long _maxRegisterRelic = 2 + UpgradeManager.Self.HallExpansion.Level;
 
     private readonly List<Relic> _registerRelics = [..regRelics]; 
 
     public bool RegisterRelic(Relic relic)
     {
-        if (_registerRelics.Count >= MAX_REGISTER_RELIC)
+        if (_registerRelics.Count >= _maxRegisterRelic)
             return false;
 
         _registerRelics.Add(relic);
