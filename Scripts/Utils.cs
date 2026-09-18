@@ -96,8 +96,8 @@ public static class CollectionExtensions
 {
     public static bool IsValidIndex(int i, int len) => i > 0 && i < len;
 
-    public static T? GetOrNull<T>(this IReadOnlyList<T> list, int index) where T : class =>
-        IsValidIndex(index, list.Count) ? list[index] : null;
+    public static T? GetOrNull<T>(this IReadOnlyList<T> list, int index) =>
+        IsValidIndex(index, list.Count) ? list[index] : default;
     
     public static bool SetOrSkip<T>(this IList<T> list, int index, T value)
     {
@@ -106,10 +106,8 @@ public static class CollectionExtensions
         return result;
     }
 
-
-
-    public static T? GetOrNull<T>(this T[] array, int index) where T : class =>
-        IsValidIndex(index, array.Length) ? array[index] : null;
+    public static T? GetOrNull<T>(this T[] array, int index) =>
+        IsValidIndex(index, array.Length) ? array[index] : default;
 
     public static bool SetOrSkip<T>(this T[] array, int index, T value)
     {
@@ -159,4 +157,10 @@ public static class LocalizationUtils
 {
     public static string Translate(this string text) =>
         TranslationServer.Translate(text);
+}
+
+public static class GDUtils
+{
+    public static float RandfRange(double from, double to) =>
+        (float) GD.RandRange(from, to);
 }

@@ -16,6 +16,10 @@ public interface IScene<TArgs>
 
 public static class SceneLoader
 {
+    public static SceneTree GetSceneTree() =>
+        Engine.GetMainLoop() as SceneTree
+            ?? throw new InvalidOperationException("SceneTree not found.");
+
     public static T Load<T, TArgs>(TArgs args = default)
         where T : Node, IScene<TArgs>
         where TArgs : struct, ISceneArgs
@@ -35,10 +39,7 @@ public static class SceneLoader
     {
         T node = Load<T, TArgs>(args);
 
-        SceneTree tree = Engine.GetMainLoop() as SceneTree
-            ?? throw LogUtils.Throw<InvalidOperationException>("SceneTree not found.");
-
-        tree.ChangeSceneToNode(node);
+        GetSceneTree().ChangeSceneToNode(node);
 
         return node;
     }

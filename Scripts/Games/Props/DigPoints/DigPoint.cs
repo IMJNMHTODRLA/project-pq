@@ -9,6 +9,8 @@ public readonly record struct DigPointArgs(
 
 public partial class DigPoint : StaticBody2D, IScene<DigPointArgs>
 {
+    [Signal] public delegate void OnExcavatedEventHandler(DigPoint dig);
+
     public static string ScenePath => "res://Scenes/Games/Props/DigPoints/DigPoint.tscn";
 
     public ExcavationMap _randMap = null!;
@@ -30,5 +32,7 @@ public partial class DigPoint : StaticBody2D, IScene<DigPointArgs>
             return;
 
         _randMap.GetRandRelic();
+
+        
     }
 }
