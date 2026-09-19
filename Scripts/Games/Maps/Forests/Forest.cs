@@ -11,10 +11,7 @@ public partial class Forest : ExcavationMap, IScene<EmptyArgs>
     public static string ScenePath => "res://Scenes/Games/Maps/Forests/Forest.tscn";
 
     public override ForestData LinkMapData =>
-        MapManager.Self.Get<ForestData>() ??
-            throw new InvalidOperationException(
-                $"{nameof(ForestData)} is not registered in {nameof(MapManager)}."
-            );
+        MapManager.Self.GetOrThrow<ForestData>();
 
     protected override IReadOnlyDictionary<RelicRarity, IReadOnlyList<Func<Relic>>> RelicPool { get; } =
         new Dictionary<RelicRarity, IReadOnlyList<Func<Relic>>>()

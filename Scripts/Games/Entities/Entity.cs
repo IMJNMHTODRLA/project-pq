@@ -29,7 +29,7 @@ public abstract partial class Entity : CharacterBody2D
 
     public virtual void Despawn()
     {
-        QueueFree();
+        this.SafeQueueFree();
     }
 
     public abstract void ReadyProcess();

@@ -18,7 +18,7 @@ public abstract partial class LivingEntity : Entity
 
     public long Health
     {
-        get => field;
+        get;
         set
         {
             long changeHp = Math.Clamp(value, 0, MaxHealth);
@@ -46,7 +46,7 @@ public abstract partial class LivingEntity : Entity
 
     public long MaxHealth
     {
-        get => field;
+        get;
         set => field = Math.Max(value, 1);
     }
 

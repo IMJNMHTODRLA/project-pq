@@ -43,10 +43,10 @@ public sealed partial class MapManager : Singleton<MapManager>
 
     public Map? CurrentMap
     {
-        get => field;
+        get;
         set
         {
-            field?.QueueFree();
+            field?.SafeQueueFree();
             field = value;
         }
     } = null;
@@ -57,6 +57,16 @@ public sealed partial class MapManager : Singleton<MapManager>
     {
         _maps.TryGetValue(typeof(T), out MapData? data);
         return (T?) data;
+    }
+
+    public T GetOrThrow<T>()
+        where T : MapData
+    {
+        _maps.TryGetValue(typeof(T), out MapData? data);
+        return data as T ??
+            throw new InvalidOperationException(
+                $"{nameof(T)} is not registered in {nameof(MapManager)}."
+            );
     }
 
     private void InitializeMap()

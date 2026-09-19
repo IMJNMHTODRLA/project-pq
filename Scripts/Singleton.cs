@@ -19,7 +19,7 @@ public abstract partial class Singleton<T> : Node
         if (IsInstance && Self != this)
         {
             GD.PrintErr($"[{typeof(T).Name}] 이미 싱글톤 인스턴스가 존재하여 중복 노드를 제거합니다.");
-            QueueFree();
+            this.SafeQueueFree();
             return;
         }
 

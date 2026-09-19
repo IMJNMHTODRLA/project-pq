@@ -26,7 +26,7 @@ public abstract partial class Map : Node2D
         RemoveWorld(player);
 
         foreach (Node entry in _worldNodes)
-            entry.QueueFree();
+            entry.SafeQueueFree();
         
         _worldNodes.Clear();
     }
@@ -49,6 +49,12 @@ public abstract partial class Map : Node2D
     {
         entry.DetachNode();
         _worldNodes.Remove(entry);
+    }
+
+    public virtual void QueueFreeWorld(Node2D entry)
+    {
+        RemoveWorld(entry);
+        entry.SafeQueueFree();
     }
 
     public virtual void AddWorld(Node2D entry)

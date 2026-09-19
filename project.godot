@@ -22,13 +22,18 @@ buses/default_bus_layout="uid://b1h66sh621j3q"
 [autoload]
 
 SettingManager="*uid://bvkru1ik7a7jy"
+UpgradeManager="*uid://1dgjjqwx8ufx"
 GameManager="*uid://cl3vmyd51p00"
+TickManager="*uid://m7qflik4jtpj"
 MapManager="*uid://cllgcbvpnhmkp"
 PlayerManager="*uid://purxyj38gyxw"
-TickManager="*uid://m7qflik4jtpj"
 
 [display]
 
+window/size/viewport_width=320
+window/size/viewport_height=180
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -39,6 +44,10 @@ project/assembly_name="ProjectPQ"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/localizers/plugin.cfg")
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 

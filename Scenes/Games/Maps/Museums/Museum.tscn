@@ -33,7 +33,6 @@ y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=845099589]
 position = Vector2(-56, 24)
-zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 
 [node name="ChangeMapArea" type="Area2D" parent="." unique_id=74426075]

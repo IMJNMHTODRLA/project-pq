@@ -106,6 +106,11 @@ public static class CollectionExtensions
         return result;
     }
 
+    public static void SetOrAppend<T>(this IList<T> list, int index, T value)
+    {
+        if (!list.SetOrSkip(index, value)) list.Add(value);
+    }
+
     public static T? GetOrNull<T>(this T[] array, int index) =>
         IsValidIndex(index, array.Length) ? array[index] : default;
 
@@ -163,4 +168,10 @@ public static class GDUtils
 {
     public static float RandfRange(double from, double to) =>
         (float) GD.RandRange(from, to);
+
+    public static void SafeQueueFree(this Node? node)
+    {
+        if (node != null && GodotObject.IsInstanceValid(node))
+            node.QueueFree();
+    }
 }

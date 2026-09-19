@@ -17,11 +17,19 @@ public sealed class PlayerManagerSaveData(
 
 public sealed partial class PlayerManager : Singleton<PlayerManager>
 {
-    public Player Player { get; private set; } = null!;
+    public Player Player
+    {
+        get;
+        private set
+        {
+            field.SafeQueueFree();
+            field = value;
+        }
+    } = null!;
 
     public void Reset()
     {
-        Player?.QueueFree();
+        Player?.SafeQueueFree();
 
         Player = SceneLoader.Load<Player, EmptyArgs>();
         Player.DetachNode();

@@ -25,10 +25,10 @@ public abstract class ExcavationMapData : MapData
         int length = 10;
 
         for (int i = 0; i < length; i++)
-            _digPointCoords[i] = new(
+            _digPointCoords.SetOrAppend(i, new(
                 GDUtils.RandfRange(-100.0f, 100.0f),
                 GDUtils.RandfRange(-100.0f, 100.0f)
-            );
+            ));
     }
 
     public void RemoveDigPoints(Vector2 pos) =>

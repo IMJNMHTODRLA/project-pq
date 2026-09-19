@@ -36,7 +36,7 @@ public sealed partial class SettingManager : Singleton<SettingManager>
 
     private async Task Initialize()
     {
-        SetLangId = await AppDataUtils.ReadTextAsync("options/lang", LangId.EN);
+        SetLangId = await AppDataUtils.ReadTextAsync("options/lang", LangId.KO);
         TranslationServer.SetLocale(SetLangId);
 
         _initTcs.TrySetResult(true);

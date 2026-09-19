@@ -21,10 +21,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xrivr"]
 size = Vector2(16, 16)
 
-[node name="Player" type="CharacterBody2D" unique_id=2048624612 node_paths=PackedStringArray("Remote")]
+[node name="Player" type="CharacterBody2D" unique_id=2048624612 node_paths=PackedStringArray("_remote")]
 texture_filter = 1
 script = ExtResource("2_kg0xi")
-Remote = NodePath("RemoteTransform2D")
+_remote = NodePath("RemoteTransform2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1063179290]
 sprite_frames = SubResource("SpriteFrames_xrivr")

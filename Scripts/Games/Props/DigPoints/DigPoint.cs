@@ -31,8 +31,8 @@ public partial class DigPoint : StaticBody2D, IScene<DigPointArgs>
         if (!inputEvent.IsActionPressed(InputMap.MouseLeft))
             return;
 
-        _randMap.GetRandRelic();
+        //_randMap.GetRandRelic();
 
-        
+        EmitSignal(SignalName.OnExcavated, this);
     }
 }

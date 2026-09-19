@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://3xke8luqwoxm"]
+
+[ext_resource type="Script" uid="uid://bort6et1vlwsa" path="res://Scripts/Guis/Slots/ItemSlot.cs" id="1_km6jd"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_880rx"]
+load_path = "res://.godot/imported/BugItemIcon.png-d376a3b7514acad523ab83b990c495d8.ctex"
+
+[node name="Slot" type="PanelContainer" unique_id=732604952 node_paths=PackedStringArray("_texture")]
+anchors_preset = -1
+anchor_right = 0.025
+anchor_bottom = 0.044000003
+offset_right = 56.0
+offset_bottom = 56.079998
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.125, 0.125)
+script = ExtResource("1_km6jd")
+_texture = NodePath("TextureRect")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1003074371]
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_880rx")

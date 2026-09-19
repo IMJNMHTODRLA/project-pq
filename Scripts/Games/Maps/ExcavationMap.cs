@@ -39,6 +39,8 @@ public abstract partial class ExcavationMap : Map
             DigPoint digPoint = SceneLoader.Load<DigPoint, DigPointArgs>(new(this));
             digPoint.OnExcavated += OnExcavated;
             digPoint.GlobalPosition = coord;
+
+            AddWorld(digPoint);
         }
     }
 
@@ -46,5 +48,7 @@ public abstract partial class ExcavationMap : Map
     {
         Vector2 pos = dig.GlobalPosition;
         LinkMapData.RemoveDigPoints(pos);
+
+        QueueFreeWorld(dig);
     }
 }

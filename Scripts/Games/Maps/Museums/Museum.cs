@@ -7,6 +7,9 @@ public partial class Museum : Map, IScene<EmptyArgs>
 {
     public static string ScenePath => "res://Scenes/Games/Maps/Museums/Museum.tscn";
 
+    public override MapData LinkMapData =>
+        MapManager.Self.GetOrThrow<MuseumData>();
+
     [Export] private Area2D ChangeMapArea = null!;
 
     public override void _Ready()
