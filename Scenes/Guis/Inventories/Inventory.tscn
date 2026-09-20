@@ -1,14 +1,22 @@
 [gd_scene format=3 uid="uid://b51v1k3bk0fww"]
 
-[node name="Inventory" type="Control" unique_id=830150781]
+[ext_resource type="Script" uid="uid://dh3h3uj1ymmsw" path="res://Scripts/Guis/Inventories/Inventory.cs" id="1_pjiy5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mbyo7"]
+load_path = "res://.godot/imported/BugItemIcon.png-d376a3b7514acad523ab83b990c495d8.ctex"
+
+[node name="Inventory" type="Control" unique_id=830150781 node_paths=PackedStringArray("_inventoryPanel", "_firstItemPos")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_pjiy5")
+_inventoryPanel = NodePath("InventoryPanel")
+_firstItemPos = NodePath("InventoryPanel/ItemSlotCoord")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=780607628]
+[node name="InventoryPanel" type="Panel" parent="." unique_id=389544180]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.21900001
@@ -20,14 +28,30 @@ offset_top = 0.01999855
 offset_right = 0.07998657
 offset_bottom = -0.020004272
 
-[node name="ItemSlotCoord" type="Control" parent="." unique_id=1559430037]
+[node name="ItemSlotCoord" type="Control" parent="InventoryPanel" unique_id=1559430037]
 layout_mode = 1
-anchor_left = 0.294
-anchor_top = 0.79988897
-anchor_right = 0.294
-anchor_bottom = 0.79988897
-offset_left = -0.08000183
-offset_top = 0.019996643
-offset_right = -0.08000183
-offset_bottom = 0.019996643
+anchor_left = 0.04422223
+anchor_top = 0.85700005
+anchor_right = 0.04422223
+anchor_bottom = 0.85700005
+offset_left = 0.03999901
+offset_top = 0.019989014
+offset_right = 0.03999901
+offset_bottom = 0.019989014
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="InventoryPanel" unique_id=1485062258]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.044111114
+anchor_top = 0.8568572
+anchor_right = 0.1328889
+anchor_bottom = 0.971
+offset_left = 0.059999466
+offset_top = 0.040000916
+offset_right = 0.07999802
+offset_bottom = 0.05999756
+texture = SubResource("CompressedTexture2D_mbyo7")
+expand_mode = 1
 metadata/_edit_use_anchors_ = true

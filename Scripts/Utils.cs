@@ -112,6 +112,9 @@ public static class CollectionExtensions
     }
 
     public static T? GetOrNull<T>(this T[] array, int index) =>
+        array.AsReadOnly().GetOrNull(index);
+    
+    public static T? GetOrNull<T>(this ReadOnlySpan<T> array, int index) =>
         IsValidIndex(index, array.Length) ? array[index] : default;
 
     public static bool SetOrSkip<T>(this T[] array, int index, T value)

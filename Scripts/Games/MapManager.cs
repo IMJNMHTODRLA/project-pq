@@ -61,13 +61,10 @@ public sealed partial class MapManager : Singleton<MapManager>
 
     public T GetOrThrow<T>()
         where T : MapData
-    {
-        _maps.TryGetValue(typeof(T), out MapData? data);
-        return data as T ??
-            throw new InvalidOperationException(
-                $"{nameof(T)} is not registered in {nameof(MapManager)}."
-            );
-    }
+    => Get<T>() ??
+        throw new InvalidOperationException(
+            $"{nameof(T)} is not registered in {nameof(MapManager)}."
+        );
 
     private void InitializeMap()
     {

@@ -10,4 +10,6 @@ public static class InputMap
     public readonly static StringName D = "d";
 
     public readonly static StringName MouseLeft = "mouse_left";
+
+    public readonly static StringName E = "e";
 }
