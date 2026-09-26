@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
-using ProjectPQ.Scripts.Games.Relics;
+using ProjectPQ.Scripts.Games.Items;
+using ProjectPQ.Scripts.Games.Items.Empties;
 
 namespace ProjectPQ.Scripts.Games.Entities.Players;
 
@@ -21,6 +22,9 @@ public partial class Player
         }
     }
 
+    public bool SetItem(int index, Item item) => _inventory.SetOrSkip(index, item.Clone());
+    public bool IsEmpty(int index) => _inventory.GetOrNull(index)?.IsEmpty() ?? true;
+
     public bool AddItem(Item item, int times = 1)
     {
         if (item.IsEmpty())
@@ -28,7 +32,7 @@ public partial class Player
 
         for (int i = 0; i < _inventory.Length; i++)
         {
-            if (_inventory[i].IsNotEmpty())
+            if (!_inventory[i].IsEmpty())
                 continue;
 
             if (SetItem(i, item))
@@ -41,15 +45,12 @@ public partial class Player
         return false;
     }
 
-    public bool RemoveItem(Item item, int times = 1)
+    public bool RemoveItem(Item item, int times = 1) => RemoveItem(t => t.Equals(item), times);
+    public bool RemoveItem(Func<Item, bool> predicate, int times = 1)
     {
-        if (item.IsEmpty())
-            return false;
-
         for (int i = 0; i < _inventory.Length; i++)
         {
-            if (!item.Equals(_inventory[i]))
-                continue;
+            if (!predicate(_inventory[i])) continue;
 
             if (SetItem(i, Item.Empty))
                 times--;
@@ -61,9 +62,14 @@ public partial class Player
         return false;
     }
 
-    public bool SetItem(int index, Item item) =>
-        _inventory.SetOrSkip(index, item.Clone());
+    public bool HasItem(Func<Item, bool> predicate, int times = 1)
+    {
+        if (times <= 0) return true;
 
-    public bool IsEmpty(int index) =>
-        _inventory.GetOrNull(index)?.IsEmpty() ?? true;
+        foreach (Item item in _inventory)
+            if (predicate(item) && --times <= 0)
+                return true;
+
+        return false;
+    }
 }

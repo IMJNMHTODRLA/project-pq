@@ -40,7 +40,7 @@ public abstract partial class ExcavationMap : Map
             digPoint.OnExcavated += OnExcavated;
             digPoint.GlobalPosition = coord;
 
-            AddWorld(digPoint);
+            AddOverlay(digPoint);
         }
     }
 
@@ -49,6 +49,6 @@ public abstract partial class ExcavationMap : Map
         Vector2 pos = dig.GlobalPosition;
         LinkMapData.RemoveDigPoints(pos);
 
-        QueueFreeWorld(dig);
+        dig.SafeQueueFree();
     }
 }

@@ -15,8 +15,7 @@ public abstract partial class Entity : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (TickManager.Self.IsPause)
-            return;
+        if (GameSessionManager.Self.IsPause) return;
 
         if (IsDead())
         {
@@ -27,10 +26,7 @@ public abstract partial class Entity : CharacterBody2D
         TickProcess(delta);
     }
 
-    public virtual void Despawn()
-    {
-        this.SafeQueueFree();
-    }
+    public virtual void Despawn() => this.SafeQueueFree();
 
     public abstract void ReadyProcess();
     public abstract void TickProcess(double delta);

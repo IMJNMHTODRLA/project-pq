@@ -1,7 +1,7 @@
 namespace ProjectPQ.Scripts.Games.Upgrades.HallExpansion;
 
 [JsonTypeId(0xEC459BC3D9C540B9)]
-public class HallExpansionUpgrade : Upgrade
+public class HallExpansionUpgrade : Upgrade<long>
 {
     protected override string BaseName => "전시관 확장";
     protected override string BaseDescription => "설명 추후에 추가";
@@ -11,5 +11,7 @@ public class HallExpansionUpgrade : Upgrade
     protected override float BaseCostMultiple => 1.85f;
 
     public override int MaxLevel => 8;
-    public override int UnlockDate => 3;
+    public override int UnlockDate => 1;
+
+    public override long EffectValue => 2 + Level;
 }

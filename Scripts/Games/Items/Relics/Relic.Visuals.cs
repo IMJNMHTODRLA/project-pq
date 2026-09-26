@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace ProjectPQ.Scripts.Games.Relics.Relics;
+namespace ProjectPQ.Scripts.Games.Items.Relics;
 
 public abstract partial class Relic
 {

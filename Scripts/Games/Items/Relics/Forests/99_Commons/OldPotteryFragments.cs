@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
+using ProjectPQ.Scripts.Games.Relics;
 
-namespace ProjectPQ.Scripts.Games.Relics.Relics.Forests.Commons;
+namespace ProjectPQ.Scripts.Games.Items.Relics.Forests.Commons;
 
 [method: JsonConstructor]
 [JsonTypeId(0xCADFBECA52A5D31E)]

@@ -111,6 +111,14 @@ public static class CollectionExtensions
         if (!list.SetOrSkip(index, value)) list.Add(value);
     }
 
+    public static void SetOrFill<T>(this IList<T> list, int index, T value, T defValue = default!)
+    {
+        while (list.Count <= index)
+            list.Add(defValue);
+
+        list[index] = value;
+    }
+
     public static T? GetOrNull<T>(this T[] array, int index) =>
         array.AsReadOnly().GetOrNull(index);
     
@@ -139,6 +147,19 @@ public static class ObjectExtensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => obj == null;
         }
+    }
+
+    public static bool IsUnpack<T>(this T? data, out T package)
+        where T : struct
+    {
+        if (data is { } value)
+        {
+            package = value;
+            return true;
+        }
+
+        package = default;
+        return false;
     }
 }
 

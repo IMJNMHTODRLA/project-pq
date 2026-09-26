@@ -1,7 +1,7 @@
 using Godot;
-using ProjectPQ.Scripts.Games.Relics.Empties;
+using ProjectPQ.Scripts.Games.Items.Empties;
 
-namespace ProjectPQ.Scripts.Games.Relics;
+namespace ProjectPQ.Scripts.Games.Items;
 
 public abstract partial class Item : Resource
 {

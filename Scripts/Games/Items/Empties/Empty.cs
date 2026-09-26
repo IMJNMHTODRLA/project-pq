@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace ProjectPQ.Scripts.Games.Relics.Empties;
+namespace ProjectPQ.Scripts.Games.Items.Empties;
 
 public partial class Empty : Item
 {

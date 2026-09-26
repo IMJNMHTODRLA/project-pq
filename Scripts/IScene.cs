@@ -27,7 +27,6 @@ public static class SceneLoader
         PackedScene scene = GD.Load<PackedScene>(T.ScenePath);
         
         T tScene = scene.Instantiate<T>();
-        
         tScene.SceneInit(args);
         
         return tScene;
@@ -38,11 +37,19 @@ public static class SceneLoader
         where TArgs : struct, ISceneArgs
     {
         T node = Load<T, TArgs>(args);
-
+        
         GetSceneTree().ChangeSceneToNode(node);
 
         return node;
     }
+
+    public static T Load<T>()
+        where T : Node, IScene<EmptyArgs>
+    => Load<T, EmptyArgs>();
+
+    public static T Change<T>()
+        where T : Node, IScene<EmptyArgs>
+    => Change<T, EmptyArgs>();
 }
 
 public static class SceneUtils

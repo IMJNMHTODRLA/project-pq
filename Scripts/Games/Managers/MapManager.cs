@@ -4,53 +4,37 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using ProjectPQ.Scripts.Games.Maps;
-using ProjectPQ.Scripts.Games.Maps.Museums;
 
-namespace ProjectPQ.Scripts.Games;
-
-[method: JsonConstructor]
-[JsonTypeId(0x0259_5261_EA3A_E960)]
-public sealed class MapManagerSaveData(MapData[]? maps = null)
-{
-    [JsonProperty]
-    public MapData[] Maps { get; } = maps ?? [];
-}
+namespace ProjectPQ.Scripts.Games.Managers;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public sealed class RegisterMapDataAttribute : Attribute;
 
-public sealed partial class MapManager : Singleton<MapManager>
+[JsonTypeId(0x0259_5261_EA3A_E960)]
+public sealed class MapManager : GameService, IServiceDirect<MapManager>
 {
-    public void Reset()
-    {
-        InitializeMap();
-        CurrentMap = null;
-    }
+    public static MapManager Self => GameManager.Self.Map;
 
-    public bool GameStart(MapManagerSaveData? saveData = null)
+    [JsonProperty]
+    public MapData[] Maps
     {
-        Reset();
-
-        if (saveData != null)
+        get => [.._maps.Values];
+        init
         {
-            foreach (MapData map in saveData.Maps)
+            foreach (MapData map in value)
                 _maps[map.Type] = map;
         }
-
-        SceneLoader.Change<Museum, EmptyArgs>();
-        return true;
     }
+    private readonly Dictionary<Type, MapData> _maps = [];
 
     public Map? CurrentMap
     {
-        get;
-        set
+        get; set
         {
             field?.SafeQueueFree();
             field = value;
         }
     } = null;
-    private readonly Dictionary<Type, MapData> _maps = [];
 
     public T? Get<T>()
         where T : MapData
@@ -66,7 +50,7 @@ public sealed partial class MapManager : Singleton<MapManager>
             $"{nameof(T)} is not registered in {nameof(MapManager)}."
         );
 
-    private void InitializeMap()
+    public override void OnLoad()
     {
         _maps.Clear();
         Assembly assembly = Assembly.GetExecutingAssembly();
@@ -86,7 +70,4 @@ public sealed partial class MapManager : Singleton<MapManager>
             _maps.Add(type, data);
         }
     }
-
-    protected override void OnAutoload() => Reset();
-    protected override void OnTick(double delta) {}
 }

@@ -6,7 +6,7 @@ public partial class Player :
 {
     public Player() : base(maxHealth: 100, health: 100)
     {
-        InitializeMove();
+        _move = new(this, 100.0f);
     }
 
     public static string ScenePath => "res://Scenes/Games/Entities/Players/Player.tscn";

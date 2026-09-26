@@ -1,5 +1,6 @@
 using Godot;
 using ProjectPQ.Scripts.Games;
+using static ProjectPQ.Scripts.Games.GameSessionManager;
 
 namespace ProjectPQ.Scripts.Menu;
 
@@ -9,11 +10,13 @@ public partial class MainMenu : Control
 
     public override void _Ready()
     {
-        NewGameBtn.Pressed += OnNewGame;
+        NewGameBtn.Pressed += NewGame;
     }
 
-    public void OnNewGame()
+    private async void NewGame()
     {
-        GameManager.Self.NewGame();
+        SessionResult result = await GameSessionManager.Self.NewSession();
+
+        GD.Print(result.ToString());
     }
 }

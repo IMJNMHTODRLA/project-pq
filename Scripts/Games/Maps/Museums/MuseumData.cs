@@ -1,40 +1,38 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using ProjectPQ.Scripts.Games.Managers;
 using ProjectPQ.Scripts.Games.Relics.Relics;
 
 namespace ProjectPQ.Scripts.Games.Maps.Museums;
 
 [RegisterMapData]
-[method: JsonConstructor]
-public class MuseumData(IReadOnlyList<Relic> regRelics) : MapData
+public class MuseumData : MapData
 {
-    public MuseumData() : this(regRelics: [])
+    [JsonProperty]
+    public IReadOnlyList<Relic?> RegisterRelics
     {
+        get => _registerRelics;
+        init => _registerRelics = value?.ToList() ?? [];
     }
 
-    private readonly long _maxRegisterRelic = 2 + UpgradeManager.Self.HallExpansion.Level;
+    private long _maxRegisterRelic => UpgradeManager.Self.HallExpansion.EffectValue;
+    private readonly List<Relic?> _registerRelics = []; 
 
-    private readonly List<Relic> _registerRelics = [..regRelics]; 
-
-    public bool RegisterRelic(Relic relic)
+    public bool RegisterRelic(int index, Relic relic)
     {
-        if (_registerRelics.Count >= _maxRegisterRelic)
+        if (index >= _maxRegisterRelic)
             return false;
 
-        _registerRelics.Add(relic);
+        _registerRelics.SetOrFill(index, relic, null);
         return true;
     }
 
     public bool UnRegisterRelic(int index, out Relic? relic)
     {
         relic = _registerRelics.GetOrNull(index);
-        if (relic == null)
-            return false;
+        _registerRelics.SetOrSkip(index, null);
 
-        _registerRelics.RemoveAt(index);
-        return true;
+        return relic != null;
     }
-
-    public IReadOnlyList<Relic> GetAllRegisterRelic() =>
-        _registerRelics;
 }

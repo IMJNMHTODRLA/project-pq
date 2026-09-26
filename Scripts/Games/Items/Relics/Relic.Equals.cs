@@ -1,4 +1,6 @@
-namespace ProjectPQ.Scripts.Games.Relics.Relics;
+using ProjectPQ.Scripts.Games.Relics;
+
+namespace ProjectPQ.Scripts.Games.Items.Relics;
 
 public abstract partial class Relic
 {
@@ -13,4 +15,6 @@ public abstract partial class Relic
             Preservation.Type == relic.Preservation.Type &&
             Appraisal.Type == relic.Appraisal.Type;
     }
+
+    public bool IsPiece => Preservation.Type == RelicPreservation.Piece.Type;
 }

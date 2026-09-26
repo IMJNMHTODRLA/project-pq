@@ -8,6 +8,7 @@ namespace ProjectPQ.Scripts.Guis;
 
 public sealed partial class GuiManager : Singleton<GuiManager>
 {
+    // 추후에 플레이어 죽으면 GUI 안 켜지거나 그러는 UI 만들 수 있게 하기
     private readonly Dictionary<Type, Control> _activeGuis = [];
 
     private void Toggle<T>()

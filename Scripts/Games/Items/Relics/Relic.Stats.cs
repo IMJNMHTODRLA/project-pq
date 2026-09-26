@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
+using ProjectPQ.Scripts.Games.Relics;
 
-namespace ProjectPQ.Scripts.Games.Relics.Relics;
+namespace ProjectPQ.Scripts.Games.Items.Relics;
 
 public abstract partial class Relic
 {

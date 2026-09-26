@@ -5,12 +5,7 @@ namespace ProjectPQ.Scripts.Games.Entities.Players;
 
 public partial class Player : IMovable
 {
-    private MoveComponent _move = null!;
-
-    private void InitializeMove()
-    {
-        _move = new(this, 100.0f);
-    }
+    private readonly MoveComponent _move;
 
     public void OnMove(Vector2 direction) => _move.OnMove(direction);
     public void StopMove() => _move.StopMove();
