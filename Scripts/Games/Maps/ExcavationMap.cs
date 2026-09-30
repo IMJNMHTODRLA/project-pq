@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using ProjectPQ.Scripts.Games.Items.Relics;
 using ProjectPQ.Scripts.Games.Props.DigPoints;
 using ProjectPQ.Scripts.Games.Relics;
-using ProjectPQ.Scripts.Games.Relics.Relics;
 
 namespace ProjectPQ.Scripts.Games.Maps;
 

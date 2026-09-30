@@ -199,3 +199,9 @@ public static class GDUtils
             node.QueueFree();
     }
 }
+
+public static class TickUtils
+{
+    public static long Sec2Tick(this double value) =>
+        (long) value * Engine.PhysicsTicksPerSecond;
+}

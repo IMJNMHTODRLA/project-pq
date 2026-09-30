@@ -1,4 +1,6 @@
 using Godot;
+using ProjectPQ.Scripts.Games.Items.Relics;
+using ProjectPQ.Scripts.Games.Managers;
 using ProjectPQ.Scripts.Games.Maps;
 
 namespace ProjectPQ.Scripts.Games.Props.DigPoints;
@@ -9,7 +11,8 @@ public readonly record struct DigPointArgs(
 
 public partial class DigPoint : StaticBody2D, IScene<DigPointArgs>
 {
-    [Signal] public delegate void OnExcavatedEventHandler(DigPoint dig);
+    public delegate void OnExcavatedListener(DigPoint dig);
+    public event OnExcavatedListener? OnExcavated;
 
     public static string ScenePath => "res://Scenes/Games/Props/DigPoints/DigPoint.tscn";
 
@@ -21,18 +24,42 @@ public partial class DigPoint : StaticBody2D, IScene<DigPointArgs>
         _randMap = args.RandMap;
     }
 
+    private int _holdTicks = 0;
+    private bool _isHolding = false;
+
     public override void _Ready()
     {
-        _canDigArea.InputEvent += DigAreaInputEvent;
+        _canDigArea.InputEvent += HoldingInputEvent;
     }
 
-    private void DigAreaInputEvent(Node _, InputEvent inputEvent, long __)
+    private void HoldingInputEvent(Node _, InputEvent inputEvent, long __)
     {
         if (!inputEvent.IsActionPressed(InputMap.MouseLeft))
             return;
 
-        //_randMap.GetRandRelic();
+        _isHolding = inputEvent.IsPressed();
+        if (!_isHolding) _holdTicks = 0;
+    }
 
-        EmitSignal(SignalName.OnExcavated, this);
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!_isHolding)
+            return;
+        
+        if (++_holdTicks >= 5.0.Sec2Tick())
+            OnDig();
+    }
+
+    private void OnDig()
+    {
+        _isHolding = false;
+        _holdTicks = 0;
+
+        Relic? selectRelic = _randMap.GetRandRelic();
+        if (selectRelic == null) return;
+
+        PlayerManager.Self.Player.AddItem(selectRelic);
+
+        OnExcavated?.Invoke(this);
     }
 }
